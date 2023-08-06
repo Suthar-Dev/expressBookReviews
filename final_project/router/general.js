@@ -32,28 +32,32 @@ public_users.get('/',function (req, res) {
 public_users.get('/isbn/:isbn',function (req, res) {
   //Write your code here
   const isbn = req.params.isbn;
-  res.send(books[isbn])
+  let filtered_books = books.filter((books) => books.isbn === isbn);
+  res.send(filtered_books);
  });
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
   //Write your code here
   const author = req.params.author;
-  res.send(books[author])
+  let filtered_books = books.filter((books) => books.author === author);
+  res.send(filtered_books);
 });
 
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
   //Write your code here
   const title = req.params.title;
-  res.send(books[title])
+  let filtered_books = books.filter((books) => books.title === title);
+  res.send(filtered_books);
 });
 
 //  Get book review
 public_users.get('/review/:isbn',function (req, res) {
   //Write your code here
   const review = req.params.review;
-  res.send(books[review])
+  let filtered_books = books.filter((books) => books.review === isbn);
+  res.send(filtered_books);
 });
 
 module.exports.general = public_users;
