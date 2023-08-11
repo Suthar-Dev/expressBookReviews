@@ -61,7 +61,7 @@ public_users.get('/title/:title',function (req, res) {
 let myPromise =  new Promise((resolve) => {
   setTimeout(() => {
     resolve(books);
-  }, 6000); // Adjust the timeout as needed
+  }, 6000);
 });
 
 public_users.get('/',function (req, res) {
