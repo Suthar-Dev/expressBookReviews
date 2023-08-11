@@ -36,14 +36,14 @@ regd_users.post("/login", (req, res) => {
   //Write your code here
   const username = req.body.username;
   const password = req.body.password;
-  if (!username || !passowrd) {
+  if (!username || !password) {
     return res.status(404).json({ message: "Error logging in!" });
   }
 
   if (authenticatedUser(username, password)) {
     let accessToken = jwt.sign({
       data: password
-    }, 'access', { expiresIn: 60 * 60 });
+    }, 'access', { expiresIn: 60 * 60 * 60});
 
     req.session.authorization = { accessToken, username }
     return res.status(200).send("User Successfully logged in!")
@@ -56,30 +56,32 @@ regd_users.post("/login", (req, res) => {
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
   const isbn = req.params.isbn;
-  let book = book[isbn]
-  if (book) {
-    let author = req.body.author;
-    let title = req.body.title;
-    let review = req.body.review;
-    if (author) {
-      friend["author"] = author
-    }
-    if (author) {
-      friend["title"] = title
-    }
-    if (author) {
-      friend["review"] = review
-    }
-    friends[isbn] = friend;
-    res.send(`Book based on ISBN updated.`);
-  }
+  const username = req.body.username; 
+  const review = req.body.review;
+
+  if (isbn) {
+    books[isbn].reviews[username] = review; 
+    res.send(`Book review added!`);
+    } 
   else {
     res.send("Unable to find book!");
   }
 });
 
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+
+  const isbn = req.params.isbn;
+  const username = req.body.username; 
+
+  if (isbn) {
+    delete books[isbn].reviews[username]; 
+    res.send(`Book review deleted!`);
+    } 
+  else {
+    res.send("Unable to find book!");
+  }
+});
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users
